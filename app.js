@@ -13,7 +13,10 @@ const adminRouters=require('./routes/admin');
 const shopRouters=require('./routes/shop');
 const contact=require('./routes/contactUs');
 const success=require('./routes/success');
-const exp = require('constants');
+
+const errorController = require('./controllers/error');
+
+// const exp = require('constants');
 
 
 
@@ -63,9 +66,7 @@ app.use(success);
 
 
 
-app.use((req,res,next)=>{
-    res.status(404).sendFile(path.join(__dirname,'views','404.html'));
-})
+app.use(errorController.get404Error);
 
 
 
@@ -73,4 +74,4 @@ app.use((req,res,next)=>{
 
 // const server=http.createServer(app);
 // server.listen(3000);
-app.listen(3000);
+app.listen(4000);
