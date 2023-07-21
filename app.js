@@ -1,8 +1,9 @@
 
 
 // const http=require('http');
-
+const path=require('path');
 const express=require('express');
+
 const bodyParser=require('body-parser');
 
 const app=express();
@@ -10,6 +11,9 @@ const app=express();
 const adminRouters=require('./routes/admin');
 
 const shopRouters=require('./routes/shop');
+const contact=require('./routes/contactUs');
+const success=require('./routes/success');
+const exp = require('constants');
 
 
 
@@ -23,11 +27,19 @@ const shopRouters=require('./routes/shop');
 
 app.use(bodyParser.urlencoded({extended: false}));
 
+//this line give access to public..... the css file
+app.use(express.static(path.join(__dirname,'public')));
+
 
 //filtering the paths
 app.use('/admin',adminRouters);
 
 app.use(shopRouters);
+
+app.use(contact);
+app.use(success);
+
+
 
 
 // app.use('/add-product',(req,res,next)=>{
@@ -52,7 +64,7 @@ app.use(shopRouters);
 
 
 app.use((req,res,next)=>{
-    res.status(404).send('<h1>Page is not Found</h1>');
+    res.status(404).sendFile(path.join(__dirname,'views','404.html'));
 })
 
 
